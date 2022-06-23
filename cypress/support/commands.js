@@ -74,7 +74,7 @@ Cypress.Commands.add('postCharacter', (payload) => {//paylod, caraga de solicita
 
 
 // GET requisição que testa a obtecao de personagens
-Cypress.Commands.add('getCharacters', (payload) => {//paylod, caraga de solicitação. Corpo da mensagem
+Cypress.Commands.add('getCharacters', () => {//paylod, caraga de solicitação. Corpo da mensagem
     cy.api({
         method: 'GET',
         url: '/characters',
@@ -88,9 +88,40 @@ Cypress.Commands.add('getCharacters', (payload) => {//paylod, caraga de solicita
 })
 
 
-
+// Popular o teste do get.spec
 Cypress.Commands.add('populateCharacters', function (characters) {
     characters.forEach(function (c) {// ira percorer pela massa de personagens criados
         cy.postCharacter(c)
+    })
+})
+
+
+
+Cypress.Commands.add('searchCharacters', (characterName) => {//payload, caraga de solicitação. Corpo da mensagem
+    cy.api({
+        method: 'GET',
+        url: '/characters',
+        qs:{name:characterName},//qs=query string
+        headers: {
+            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+        },
+        failOnStatusCode: false
+    }).then((response) => {
+        return response
+    })
+})
+
+
+//Ira capturar um objeto unico (ID nesse caso)
+Cypress.Commands.add('getCharactersById', (characterId) => {//paylod, caraga de solicitação. Corpo da mensagem
+    cy.api({
+        method: 'GET',
+        url: '/characters/'+ characterId,
+        headers: {
+            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+        },
+        failOnStatusCode: false
+    }).then((response) => {
+        return response
     })
 })
