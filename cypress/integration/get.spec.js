@@ -62,7 +62,7 @@ describe('GET /characters', () => {
     })
 })
 
-describe.only('GET /characters/id', () => {
+describe('GET /characters/id', () => {
 
     before(() => {
         cy.back2ThePast()

@@ -16,7 +16,7 @@
 - [X] Deve poder cadastrar um personagem com as características conforme tabela abaixo:
 - [X] Deve retornar o id do personagem ao realizar o cadastro
 - [X] Não deve cadastrar personagem com nome duplicado
-- [X] Com exceção da idade, todos os campos são obrigatórios
+- [ ] Com exceção da idade, todos os campos são obrigatórios
 
 | campos | descrição                             | tipo     | obrigatório |
 | ------ | :------------------------------------ | -------- | ----------- |
@@ -35,8 +35,8 @@
 
 ### Remover Personagem
 
-- [ ] Deve poder remover por id, um personagem cadastrado
-- [ ] Deve retornar não encontrado ao remover por id não cadastrado
+- [X] Deve poder remover por id, um personagem cadastrado
+- [X] Deve retornar não encontrado ao remover por id não cadastrado
 
 ## 🚀 Tecnologias
 

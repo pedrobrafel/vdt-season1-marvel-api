@@ -112,10 +112,25 @@ Cypress.Commands.add('searchCharacters', (characterName) => {//payload, caraga d
 })
 
 
-//Ira capturar um objeto unico (ID nesse caso)
+//Ira capturar um objeto unico (ID nesse caso) 
 Cypress.Commands.add('getCharactersById', (characterId) => {//paylod, caraga de solicitação. Corpo da mensagem
     cy.api({
         method: 'GET',
+        url: '/characters/'+ characterId,
+        headers: {
+            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+        },
+        failOnStatusCode: false
+    }).then((response) => {
+        return response
+    })
+})
+
+
+//Ira capturar um objeto unico (ID nesse caso) e apagar
+Cypress.Commands.add('deleteCharactersById', (characterId) => {//paylod, caraga de solicitação. Corpo da mensagem
+    cy.api({
+        method: 'DELETE',
         url: '/characters/'+ characterId,
         headers: {
             Authorization: Cypress.env('token')//a variavel de env que criamos no before
