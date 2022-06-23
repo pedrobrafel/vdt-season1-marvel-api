@@ -31,7 +31,7 @@
 - [X] Deve retornar uma lista de personagens cadastrados
 - [X] Deve poder buscar personagem por nome
 - [X] Deve poder buscar personagem pelo id
-- [ ] Deve retornar 404 ao buscar por id não cadastrado
+- [X] Deve retornar 404 ao buscar por id não cadastrado
 
 ### Remover Personagem
 
