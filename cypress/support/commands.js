@@ -45,6 +45,10 @@ Cypress.Commands.add('setToken', () => {
 
 })
 
+// ESSE COMANDO FOI DEIXADO DE LADO NA ULTIMA AULA DO VDT
+// OPTAMOS POR USAR A REQUISICAO DELETE VIA COMANDO SHELL back2thepast.sh
+// POIS NA ETAPA FINAL, OS TESTE FORAM FEITOS EM HEADLESS
+// POREM NAO APAGUEI PARA PODER USAR NO TESTE VIA BROWSER, E TAMBEM ESTUDOS FUTUROS
 Cypress.Commands.add('back2ThePast', () => {
     //Limpar a base antes da exeução
     cy.api({

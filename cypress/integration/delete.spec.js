@@ -1,10 +1,10 @@
 describe('DELETE /characters/id', () => {
 
-    before(() => {
-        cy.back2ThePast()
-        cy.setToken()
-
-    });
+    // BEFORE IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
+    // before(() => {
+    //     // cy.back2ThePast() //Descomentar para executar via navegador!
+    //     cy.setToken()
+    // });
 
     const godThunder = {
         name: 'Thor',
@@ -15,7 +15,6 @@ describe('DELETE /characters/id', () => {
 
     context('Quando tenho um personagem cadastrado', () => {//contexto para preparar o cenario!
         before(() => {
-            // todo
             cy.postCharacter(godThunder)
                 .then(function (response) {
                     Cypress.env('characterId', response.body.character_id)

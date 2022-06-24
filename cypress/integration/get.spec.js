@@ -10,9 +10,9 @@ describe('GET /characters', () => {
             active: true
         },
         {
-            name: 'Steve Rogers',
-            alias: 'Captain America',
-            team: ['Avengers'],
+            name: 'Charles Xavier',
+            alias: 'Professor X',
+            team: ['X-men'],
             active: true
         },
         {
@@ -36,8 +36,8 @@ describe('GET /characters', () => {
     ]
 
     before(() => {
-        cy.back2ThePast()
-        cy.setToken()
+        //  cy.back2ThePast() //Descomentar para executar via navegador!
+        //cy.setToken() // IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
         cy.populateCharacters(characters)//comando criado para popular a massa de teste
     });
 
@@ -64,11 +64,11 @@ describe('GET /characters', () => {
 
 describe('GET /characters/id', () => {
 
-    before(() => {
-        cy.back2ThePast()
-        cy.setToken()
-
-    });
+    // BEFORE IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
+    // before(() => {
+    //    // cy.back2ThePast() //Descomentar para executar via navegador!
+    //     cy.setToken()
+    // });
 
 
     const Dead = {
@@ -112,6 +112,6 @@ describe('GET /characters/id', () => {
                     expect(response.status).to.eql(404)
                 })
         });
-        
+
     });
 });
