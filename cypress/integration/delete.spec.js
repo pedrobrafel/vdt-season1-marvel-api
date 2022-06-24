@@ -1,11 +1,5 @@
 describe('DELETE /characters/id', () => {
 
-    // BEFORE IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
-    // before(() => {
-    //     // cy.back2ThePast() //Descomentar para executar via navegador!
-    //     cy.setToken()
-    // });
-
     const godThunder = {
         name: 'Thor',
         alias: 'God of Thunder',
@@ -29,7 +23,7 @@ describe('DELETE /characters/id', () => {
                 })
         });
 
-        after(function () {//double check- Garante que a exclusão aconteceu com suceso
+        after(function () {
             const id = Cypress.env('characterId')
             cy.getCharactersById(id)
                 .then(function (response) {
@@ -42,7 +36,7 @@ describe('DELETE /characters/id', () => {
     context('Quando não tenho um personagem cadastrado', () => {
 
         it('Deve retornar 404 ao remover por id não cadastrado', () => {
-            const id = '62b4752d43fd34a6f90d7c5c' //id ficticio gerado em https://nddapp.com/object-id-generator.html
+            const id = '62b4752d43fd34a6f90d7c5c'
             cy.deleteCharactersById(id)
                 .then(function (response) {
                     expect(response.status).to.eql(404)

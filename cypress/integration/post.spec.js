@@ -1,14 +1,5 @@
-//Javascript é orientado a function
-
 describe('POST /characters', () => {
 
-    // BEFORE IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
-    // before(()=>{
-    //    // cy.back2ThePast() //Descomentar para executar via navegador!
-    //     cy.setToken()
-    // })
-
-    // Cadastrar um usuario
     it('Deve cadastrar um personagem', () => {
 
         const character = {
@@ -19,16 +10,72 @@ describe('POST /characters', () => {
         }
 
         cy.postCharacter(character).then((response) => {
-            expect(response.status).to.eql(201)//Espero que a resposta do status code seja 201
+            expect(response.status).to.eql(201)
             cy.log(response.body.character_id)
             expect(response.body.character_id.length).to.eql(24)
         })
     })
 
+    it('Não deve cadastrar personagem sem nome', () => {
+        const character = {
+            name: "",
+            alias: "Super Zero",
+            team: ["Lonely"],
+            active: true
+        }
 
-    context('Quando o personagem já existe', () => { // Usei um contexto para usar um gancho
+        cy.postCharacter(character).then((response) => {
+            expect(response.status).to.eql(400)
+            expect(response.body.validation.body.message).to.eql("\"name\" is not allowed to be empty")
+        })
+    });
 
-        // Massa de teste
+    it('Não deve cadastrar personagem sem identidade secreta', () => {
+        const character = {
+            name: "Zé Ro Derriro",
+            alias: "",
+            team: ["Lonely"],
+            active: true
+        }
+
+        cy.postCharacter(character).then((response) => {
+            expect(response.status).to.eql(400)
+            expect(response.body.validation.body.message).to.eql("\"alias\" is not allowed to be empty")
+        })
+        
+    });
+
+    it('Não deve cadastrar personagem sem time', () => {
+        const character = {
+            name: "Zé Ro Derriro",
+            alias: "Super Zero",
+            team: [""],
+            active: true
+        }
+
+        cy.postCharacter(character).then((response) => {
+            expect(response.status).to.eql(400)
+            expect(response.body.validation.body.message).to.eql("\"team[0]\" is not allowed to be empty")
+        })
+        
+    });
+
+    it('Não deve cadastrar personagem sem status', () => {
+        const character = {
+            name: "Zé Ro Derriro",
+            alias: "Super Zero",
+            team: ["Lonely"]
+        }
+
+        cy.postCharacter(character).then((response) => {
+            expect(response.status).to.eql(400)
+            expect(response.body.validation.body.message).to.eql("\"active\" is required")
+        })
+        
+    });
+
+    context('Quando o personagem já existe', () => { 
+    
         const character = {
             name: "Steve Rogers",
             alias: "Captain America",
@@ -36,17 +83,17 @@ describe('POST /characters', () => {
             active: true
         }
 
-        // vai garantir que o persnagem ja exista
-        before(() => {//callback-obtencao do retorno, objeto response recebe
+       
+        before(() => {
             cy.postCharacter(character).then((response) => {
-                expect(response.status).to.eql(201)//Espero que a resposta do status code seja 201
+                expect(response.status).to.eql(201)
             })
         })
 
 
-        it('Não deve cadastrar duplicado', () => {//callback-obtencao do retorno, objeto response recebe
+        it('Não deve cadastrar duplicado', () => {
             cy.postCharacter(character).then((response) => {
-                expect(response.status).to.eql(400)//Espero que a resposta do status code
+                expect(response.status).to.eql(400)
                 expect(response.body.error).to.eql("Duplicate character")
             })
         })

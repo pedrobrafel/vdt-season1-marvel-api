@@ -2,7 +2,7 @@
 
 describe('GET /characters', () => {
 
-    const characters = [// array com a massa de teste
+    const characters = [
         {
             name: 'Peter Parker',
             alias: 'Spider-man',
@@ -36,24 +36,22 @@ describe('GET /characters', () => {
     ]
 
     before(() => {
-        //  cy.back2ThePast() //Descomentar para executar via navegador!
-        //cy.setToken() // IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
-        cy.populateCharacters(characters)//comando criado para popular a massa de teste
+        cy.populateCharacters(characters)
     });
 
     it('Deve retornar uma lista de personagens', () => {
         cy.getCharacters().then(function (response) {
-            expect(response.status).to.eql(200)//verifica o status code
-            expect(response.body).to.be.a('array')//esse codigo verifica se a resposta no body é um array (lista)
-            expect(response.body.length).to.greaterThan(0)// consegue qnt 'maior que'de itens no array ou qnt de caracteres numa string
+            expect(response.status).to.eql(200)
+            expect(response.body).to.be.a('array')
+            expect(response.body.length).to.greaterThan(0)
         })
     })
 
-    it('Deve buscar personagem por nome', () => {// query string - aula 328814
+    it('Deve buscar personagem por nome', () => {
         cy.searchCharacters('Peter')
             .then(function (response) {
-                expect(response.status).to.eql(200)//verifica o status code
-                expect(response.body.length).to.eql(1)// verifica se retornou um unico elemento
+                expect(response.status).to.eql(200)
+                expect(response.body.length).to.eql(1)
                 expect(response.body[0].alias).to.eql('Spider-man')
                 expect(response.body[0].team).to.eql(['New Avengers'])
                 expect(response.body[0].active).to.eql(true)
@@ -64,13 +62,6 @@ describe('GET /characters', () => {
 
 describe('GET /characters/id', () => {
 
-    // BEFORE IMPLEMENTADO NO ARQUIVO ./SUPPORT/INDEX.JS
-    // before(() => {
-    //    // cy.back2ThePast() //Descomentar para executar via navegador!
-    //     cy.setToken()
-    // });
-
-
     const Dead = {
         name: 'Wade Wilson',
         alias: 'Deadpool',
@@ -78,9 +69,7 @@ describe('GET /characters/id', () => {
         active: true
     }
 
-
-
-    context('Quando tenho um personagem cadastrado', () => {//contexto para preparar o cenario!
+    context('Quando tenho um personagem cadastrado', () => {
         before(() => {
             // todo
             cy.postCharacter(Dead)
@@ -94,7 +83,7 @@ describe('GET /characters/id', () => {
             cy.getCharactersById(id)
                 .then(function (response) {
                     expect(response.status).to.eql(200)
-                    expect(response.body.alias).to.eql('Deadpool')//Como ele traz um unico objeto, nao preicso passar a posicao! (ex: [0])
+                    expect(response.body.alias).to.eql('Deadpool')
                     expect(response.body.team).to.eql(['X-force'])
                     expect(response.body.name).to.eql('Wade Wilson')
                 })
@@ -106,7 +95,7 @@ describe('GET /characters/id', () => {
     context('Quando não tenho um personagem cadastrado', () => {
 
         it('Deve retornar 404 ao buscar por id não cadastrado', () => {
-            const id = '62b4752d43fd34a6f90d7c5c' //id ficticio gerado em https://nddapp.com/object-id-generator.html
+            const id = '62b4752d43fd34a6f90d7c5c' 
             cy.getCharactersById(id)
                 .then(function (response) {
                     expect(response.status).to.eql(404)

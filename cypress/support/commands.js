@@ -24,12 +24,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-
-// Comandos customizados
-//Deixa o código mais organizado
 Cypress.Commands.add('setToken', () => {
-    // Gerar o token no before
-    cy.api({//cy.api é do plugin @bahmutov na index.js
+  
+    cy.api({
         method: 'POST',
         url: '/sessions',
         body: {
@@ -38,19 +35,13 @@ Cypress.Commands.add('setToken', () => {
         }
     }).then((response) => {
         expect(response.status).to.eql(200)
-        //Criei um variavel de ambiente/environment no cypress
-        //nome token, recebe a response.body.token
         Cypress.env('token', response.body.token)
     })
 
 })
 
-// ESSE COMANDO FOI DEIXADO DE LADO NA ULTIMA AULA DO VDT
-// OPTAMOS POR USAR A REQUISICAO DELETE VIA COMANDO SHELL back2thepast.sh
-// POIS NA ETAPA FINAL, OS TESTE FORAM FEITOS EM HEADLESS
-// POREM NAO APAGUEI PARA PODER USAR NO TESTE VIA BROWSER, E TAMBEM ESTUDOS FUTUROS
+
 Cypress.Commands.add('back2ThePast', () => {
-    //Limpar a base antes da exeução
     cy.api({
         method: 'DELETE',
         url: '/back2thepast/6297cfeb6791aa00161c9737'
@@ -60,14 +51,14 @@ Cypress.Commands.add('back2ThePast', () => {
 
 })
 
-// Post requisição que testa o cadastro de personagens
-Cypress.Commands.add('postCharacter', (payload) => {//paylod, caraga de solicitação. Corpo da mensagem
+
+Cypress.Commands.add('postCharacter', (payload) => {
     cy.api({
         method: 'POST',
         url: '/characters',
         body: payload,
         headers: {
-            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+            Authorization: Cypress.env('token')
         },
         failOnStatusCode: false
     }).then((response) => {
@@ -75,15 +66,12 @@ Cypress.Commands.add('postCharacter', (payload) => {//paylod, caraga de solicita
     })
 })
 
-
-
-// GET requisição que testa a obtecao de personagens
-Cypress.Commands.add('getCharacters', () => {//paylod, caraga de solicitação. Corpo da mensagem
+Cypress.Commands.add('getCharacters', () => {
     cy.api({
         method: 'GET',
         url: '/characters',
         headers: {
-            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+            Authorization: Cypress.env('token')
         },
         failOnStatusCode: false
     }).then((response) => {
@@ -92,22 +80,22 @@ Cypress.Commands.add('getCharacters', () => {//paylod, caraga de solicitação. 
 })
 
 
-// Popular o teste do get.spec
+
 Cypress.Commands.add('populateCharacters', function (characters) {
-    characters.forEach(function (c) {// ira percorer pela massa de personagens criados
+    characters.forEach(function (c) {
         cy.postCharacter(c)
     })
 })
 
 
 
-Cypress.Commands.add('searchCharacters', (characterName) => {//payload, caraga de solicitação. Corpo da mensagem
+Cypress.Commands.add('searchCharacters', (characterName) => {
     cy.api({
         method: 'GET',
         url: '/characters',
-        qs:{name:characterName},//qs=query string
+        qs:{name:characterName},
         headers: {
-            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+            Authorization: Cypress.env('token')
         },
         failOnStatusCode: false
     }).then((response) => {
@@ -116,13 +104,12 @@ Cypress.Commands.add('searchCharacters', (characterName) => {//payload, caraga d
 })
 
 
-//Ira capturar um objeto unico (ID nesse caso) 
-Cypress.Commands.add('getCharactersById', (characterId) => {//paylod, caraga de solicitação. Corpo da mensagem
+Cypress.Commands.add('getCharactersById', (characterId) => {
     cy.api({
         method: 'GET',
         url: '/characters/'+ characterId,
         headers: {
-            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+            Authorization: Cypress.env('token')
         },
         failOnStatusCode: false
     }).then((response) => {
@@ -131,13 +118,13 @@ Cypress.Commands.add('getCharactersById', (characterId) => {//paylod, caraga de 
 })
 
 
-//Ira capturar um objeto unico (ID nesse caso) e apagar
-Cypress.Commands.add('deleteCharactersById', (characterId) => {//paylod, caraga de solicitação. Corpo da mensagem
+
+Cypress.Commands.add('deleteCharactersById', (characterId) => {
     cy.api({
         method: 'DELETE',
         url: '/characters/'+ characterId,
         headers: {
-            Authorization: Cypress.env('token')//a variavel de env que criamos no before
+            Authorization: Cypress.env('token')
         },
         failOnStatusCode: false
     }).then((response) => {
